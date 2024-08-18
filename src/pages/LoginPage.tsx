@@ -1,5 +1,5 @@
 import "./loginPage.css"
-import imagebg from "../assets/pages/loginPageBG.jpg"
+import imagebg from "../assets/pages/loginPageBG2.jpg"
 import { CSSProperties } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
@@ -7,7 +7,6 @@ import { loginSchema } from "../formSchemas/formSchemas"
 import { reqGet, reqPost } from "../api/useAPI"
 import { useMe } from "../contexts/user/meContext"
 import { User } from "../types/mainTypes"
-import { getAuthToken, setAuthToken } from "../api/cookie"
 
 const rightPanelStyle: CSSProperties = {
     backgroundImage: `url(${imagebg})`,
@@ -24,19 +23,23 @@ export const LoginPage = () => {
 
     const onSubmit = async () => {
         try {
-            const token = await reqPost("auth/login", JSON.stringify({
+            me.logout();
+
+            const loginResponse = await reqPost("auth/login", JSON.stringify({
                 username: getValues("username"),
                 password: getValues("password")
             }));
-            console.log("Token:", token.token);
-            setAuthToken(String(token.token));
-            console.log("Cookie", getAuthToken());
 
+            me.setToken(loginResponse.token)
 
-            const user: User = await reqGet("auth/me");
-            console.log("USER", user);
-
-            me.setMe(user);
+            const userResponse = await reqGet("auth/me");
+            if (userResponse.ok) {
+                const { user } = userResponse;
+                console.log("USER", user);
+                me.setMe(user);
+            } else {
+                console.log("Erro");
+            }
         } catch (error) {
             console.error("Erro ao obter token:", error);
             // Tratar o erro adequadamente
@@ -60,9 +63,16 @@ export const LoginPage = () => {
                         <button type="submit">
                             <span>Entrar</span>
                         </button>
-                        {me && me.me?.name}
-                        <br />
-                        {me && me.me?.username}
+                        {me.me &&
+                            <div style={{ display: "block", maxWidth: 400 }}>
+                                <div>Logado como {me.me.name}</div>
+                            </div>
+                        }
+                        {!(me.me) &&
+                            <div style={{ display: "block", maxWidth: 400 }}>
+                                <div>Não Logado</div>
+                            </div>
+                        }
                     </form>
                 </div>
             </div>

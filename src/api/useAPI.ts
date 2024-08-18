@@ -1,21 +1,24 @@
 import { useEffect, useState } from "react";
-import { getAuthToken, getCookie } from "./cookie";
+import { getToken, useMe } from "../contexts/user/meContext";
 
-const options: RequestInit = {
-  method: "GET",
-  headers: {
-    Authorization: `Bearer ${getAuthToken()}`,
-    "Content-Type": "application/json",
-  },
-};
+
 
 const dateReviver = (key: string, value: string) => {
   return value;
 };
 
 export const reqGet = async (url: string): Promise<any> => {
+  console.log("AAA", useMe.getState().token);
+
+
   return fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
-    ...options,
+    ...{
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${useMe.getState().token}`,
+        "Content-Type": "application/json",
+      },
+    },
     method: "GET",
   })
     .then((res) => res.json())
@@ -30,7 +33,13 @@ export const useGet = <T>(url: string): [T | null, Error | null] => {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, options)
+    fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${useMe.getState().token}`,
+        "Content-Type": "application/json",
+      },
+    })
       .then((res) => res.json())
       .then((data) => {
         setData(data);
@@ -43,7 +52,13 @@ export const useGet = <T>(url: string): [T | null, Error | null] => {
 
 export const reqPost = async (url: string, body: any): Promise<any> => {
   return fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
-    ...options,
+    ...{
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${useMe.getState().token}`,
+        "Content-Type": "application/json",
+      },
+    },
     body,
     method: "POST",
   })
@@ -62,7 +77,15 @@ export const usePost = <T>(
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, { ...options, body })
+    fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
+      ...{
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${useMe.getState().token}`,
+          "Content-Type": "application/json",
+        },
+      }, body
+    })
       .then((res) => res.json())
       .then((data) => setData(data))
       .catch((err) => setError(err));
@@ -79,7 +102,15 @@ export const usePut = <T>(
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, { ...options, body })
+    fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
+      ...{
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${useMe.getState().token}`,
+          "Content-Type": "application/json",
+        },
+      }, body
+    })
       .then((res) => res.json())
       .then((data) => setData(data))
       .catch((err) => setError(err));
@@ -96,7 +127,15 @@ export const usePatch = <T>(
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, { ...options, body })
+    fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
+      ...{
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${useMe.getState().token}`,
+          "Content-Type": "application/json",
+        },
+      }, body
+    })
       .then((res) => res.json())
       .then((data) => setData(data))
       .catch((err) => setError(err));
@@ -110,7 +149,13 @@ export const useDelete = <T>(url: string): [T | null, Error | null] => {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, options)
+    fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${useMe.getState().token}`,
+        "Content-Type": "application/json",
+      },
+    })
       .then((res) => res.json())
       .then((data) => setData(data))
       .catch((err) => setError(err));
