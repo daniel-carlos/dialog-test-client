@@ -4,6 +4,10 @@ import { CSSProperties } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { loginSchema } from "../formSchemas/formSchemas"
+import { reqGet, reqPost } from "../api/useAPI"
+import { useMe } from "../contexts/user/meContext"
+import { User } from "../types/mainTypes"
+import { getAuthToken, setAuthToken } from "../api/cookie"
 
 const rightPanelStyle: CSSProperties = {
     backgroundImage: `url(${imagebg})`,
@@ -12,14 +16,32 @@ const rightPanelStyle: CSSProperties = {
 }
 
 export const LoginPage = () => {
+    const me = useMe();
 
-    const { handleSubmit, register, formState: { errors } } = useForm({
+    const { handleSubmit, register, formState: { errors }, getValues } = useForm({
         resolver: yupResolver(loginSchema),
     });
 
-    const onSubmit = () => {
-        
-    }
+    const onSubmit = async () => {
+        try {
+            const token = await reqPost("auth/login", JSON.stringify({
+                username: getValues("username"),
+                password: getValues("password")
+            }));
+            console.log("Token:", token.token);
+            setAuthToken(String(token.token));
+            console.log("Cookie", getAuthToken());
+
+
+            const user: User = await reqGet("auth/me");
+            console.log("USER", user);
+
+            me.setMe(user);
+        } catch (error) {
+            console.error("Erro ao obter token:", error);
+            // Tratar o erro adequadamente
+        }
+    };
 
     return (
         <div id="login-page" className="full" >
@@ -38,9 +60,15 @@ export const LoginPage = () => {
                         <button type="submit">
                             <span>Entrar</span>
                         </button>
+                        {me && me.me?.name}
+                        <br />
+                        {me && me.me?.username}
                     </form>
                 </div>
             </div>
+
+
+
         </div>
     )
 }
