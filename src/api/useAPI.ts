@@ -8,14 +8,14 @@ const dateReviver = (key: string, value: string) => {
 };
 
 export const reqGet = async (url: string): Promise<any> => {
-  console.log("AAA", useMe.getState().token);
+  console.log("AAA", getToken());
 
 
   return fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
     ...{
       method: "GET",
       headers: {
-        Authorization: `Bearer ${useMe.getState().token}`,
+        Authorization: `Bearer ${getToken()}`,
         "Content-Type": "application/json",
       },
     },
@@ -36,7 +36,7 @@ export const useGet = <T>(url: string): [T | null, Error | null] => {
     fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${useMe.getState().token}`,
+        Authorization: `Bearer ${getToken()}`,
         "Content-Type": "application/json",
       },
     })
@@ -55,7 +55,7 @@ export const reqPost = async (url: string, body: any): Promise<any> => {
     ...{
       method: "GET",
       headers: {
-        Authorization: `Bearer ${useMe.getState().token}`,
+        Authorization: `Bearer ${getToken()}`,
         "Content-Type": "application/json",
       },
     },
@@ -81,7 +81,7 @@ export const usePost = <T>(
       ...{
         method: "GET",
         headers: {
-          Authorization: `Bearer ${useMe.getState().token}`,
+          Authorization: `Bearer ${getToken()}`,
           "Content-Type": "application/json",
         },
       }, body
@@ -106,7 +106,7 @@ export const usePut = <T>(
       ...{
         method: "GET",
         headers: {
-          Authorization: `Bearer ${useMe.getState().token}`,
+          Authorization: `Bearer ${getToken()}`,
           "Content-Type": "application/json",
         },
       }, body
@@ -131,7 +131,7 @@ export const usePatch = <T>(
       ...{
         method: "GET",
         headers: {
-          Authorization: `Bearer ${useMe.getState().token}`,
+          Authorization: `Bearer ${getToken()}`,
           "Content-Type": "application/json",
         },
       }, body
@@ -152,7 +152,7 @@ export const useDelete = <T>(url: string): [T | null, Error | null] => {
     fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${useMe.getState().token}`,
+        Authorization: `Bearer ${getToken()}`,
         "Content-Type": "application/json",
       },
     })

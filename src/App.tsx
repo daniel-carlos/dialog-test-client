@@ -18,13 +18,13 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps): any => {
   console.log("==========================================");
   console.log(me.me);
   console.log(me.token);
-  console.log("==========================================");
+  console.log("=====================");
 
+  return <DefaultLayout>{children}</DefaultLayout>;
   if (me.me === null || me.token === "") {
     return <Navigate to="/login" replace />;
   }
 
-  return <DefaultLayout>{children}</DefaultLayout>;
 };
 
 function App() {
@@ -33,12 +33,12 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
-          <Route path="/login" element={<LoginPage />} />
           <Route path="/feed" element={
             <ProtectedRoute>
               <TimelinePage />
             </ProtectedRoute>
           } />
+          <Route path="/login" element={<LoginPage />} />
         </Routes>
       </div>
     </Router>
