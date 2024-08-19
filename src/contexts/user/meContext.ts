@@ -13,10 +13,14 @@ interface MeProps {
 export const useMe = create<MeProps>()((set) => ({
     me: null,
     setMe: (newUser: User | null) => set(() => {
+        console.log("SET ME");
         return ({ me: newUser })
     }),
     token: "",
-    logout: () => set(() => ({ token: "", me: null })),
+    logout: () => set((state) => {
+        console.log("LOGOUT");
+        return { token: "", me: null }
+    }),
     setToken: (newToken: string) => set(() => ({ token: newToken })),
 }))
 

@@ -7,6 +7,7 @@ import { loginSchema } from "../../formSchemas/formSchemas"
 import { reqGet, reqPost } from "../../api/useAPI"
 import { useMe } from "../../contexts/user/meContext"
 import { SimpleInput } from "../../components/form/simpleInput"
+import { redirect, useNavigate } from "react-router-dom"
 
 const leftPanelStyle: CSSProperties = {
     backgroundImage: `url(${imagebg})`,
@@ -22,6 +23,8 @@ export const LoginPage = () => {
     });
 
     const { handleSubmit, register, formState: { errors }, getValues } = form;
+
+    const navigate = useNavigate();
 
     const onSubmit = async () => {
         try {
@@ -39,6 +42,7 @@ export const LoginPage = () => {
                 const { user } = userResponse;
                 console.log("USER", user);
                 me.setMe(user);
+                navigate("/feed");
             } else {
                 console.log("Erro");
             }
