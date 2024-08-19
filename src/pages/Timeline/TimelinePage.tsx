@@ -1,6 +1,15 @@
-export const TimelinePage = () => {
+import { useEffect } from "react"
+import { MainContainerHeader } from "../../components/layout/MainContainerHeader"
+import { TimelineComponent } from "./TimelineComponent"
+import { useMe } from "../../contexts/user/meContext"
 
+export const TimelinePage = () => {
+    const me = useMe()
+    
     return (
-        <h1>Timeline</h1>
+        <>
+            <MainContainerHeader title="Timeline" />
+            <TimelineComponent />
+        </>
     )
 }

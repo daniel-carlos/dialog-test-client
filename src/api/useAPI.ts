@@ -8,9 +8,6 @@ const dateReviver = (key: string, value: string) => {
 };
 
 export const reqGet = async (url: string): Promise<any> => {
-  console.log("AAA", getToken());
-
-
   return fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
     ...{
       method: "GET",
@@ -28,11 +25,15 @@ export const reqGet = async (url: string): Promise<any> => {
     });
 };
 
-export const useGet = <T>(url: string): [T | null, Error | null] => {
+export const useGet = <T>(
+  url: string,
+): [T | null, Error | null] => {
   const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    console.log("PQP");
+    
     fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
       method: "GET",
       headers: {
@@ -41,9 +42,7 @@ export const useGet = <T>(url: string): [T | null, Error | null] => {
       },
     })
       .then((res) => res.json())
-      .then((data) => {
-        setData(data);
-      })
+      .then((data) => setData(data))
       .catch((err) => setError(err));
   }, [url]);
 

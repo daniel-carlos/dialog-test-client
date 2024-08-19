@@ -20,10 +20,10 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps): any => {
   console.log(me.token);
   console.log("=====================");
 
-  return <DefaultLayout>{children}</DefaultLayout>;
   if (me.me === null || me.token === "") {
     return <Navigate to="/login" replace />;
   }
+  return <DefaultLayout>{children}</DefaultLayout>;
 
 };
 

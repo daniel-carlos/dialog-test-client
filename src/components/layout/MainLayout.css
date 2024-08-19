@@ -3,27 +3,126 @@
     justify-content: space-between;
     flex-direction: column;
     height: 100%;
+    background-color: #ccd6d8;
 
     &>header {
-        height: 3em;
+        height: 4em;
         display: flex;
         justify-content: start;
         align-items: center;
-        padding-left: 1em;
-        padding-right: 1em;
+        padding-left: 2em;
+        padding-right: 2em;
+        background-color: #b6c0c2;
+        box-shadow: 0px 0px 37px -7px rgba(0, 0, 0, 0.75);
     }
 
     & #main-navbar {
         display: flex;
         justify-content: start;
         flex-grow: 1;
-        margin-left: 2em;
-        margin-right: 2em;
+        margin-left: 1em;
+        margin-right: 1em;
         gap: 1em;
     }
 
+    & .header-link {
+        text-decoration: none;
+        font-size: 150%;
+    }
+
+    & #profile-banner {
+        display: flex;
+        align-items: center;
+        margin-right: 1em;
+
+        & #profile-name-panel {
+            background-color: #ccd6d8;
+            min-width: 10em;
+            height: 2.25em;
+            border-radius: 1em;
+            display: flex;
+            justify-content: start;
+            padding-left: 1em;
+            align-items: center;
+        }
+
+        & #profile-img-panel {
+            width: 3em;
+            height: 3em;
+            border-radius: 50%;
+            background-color: #177c45;
+            margin-left: -2em;
+            border: 1px solid black;
+        }
+    }
+
+
     &>main {
         flex-grow: 1;
-        background-color: blueviolet;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        &>#main-layout-container {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            width: 700px;
+            min-height: 100%;
+        }
     }
+
+    & #main-container-header {
+        text-align: center;
+        width: 100%;
+    }
+
+    & #main-container {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        resize: vertical;
+
+        & form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+
+            & #timeline-textarea-container {
+                width: 100%;
+                display: flex;
+            }
+
+            & textarea {
+                resize: vertical;
+                width: 100% !important;
+                border: none;
+                border-radius: 2em;
+                padding: 1em;
+                font-size: 150%;
+            }
+
+            & button {
+                resize: vertical;
+                border: none;
+                border-radius: 1.5em;
+                height: 3em;
+                width: 15em;
+                margin-top: 5px;
+                background-color: #1c2a34;
+                color: #ccd6d8;
+            }
+
+            & button:hover {
+                background-color: #597386;
+            }
+        }
+
+        & #timeline-container {
+            
+        }
+    }
+
 }

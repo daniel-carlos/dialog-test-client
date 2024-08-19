@@ -18,31 +18,25 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
         navigate("/login");
         me.logout();
     }
-    useEffect(() => {
-
-        console.log("==========XX================================");
-        console.log(me.me);
-        console.log(me.token);
-        console.log("=====================");
-    }, [])
 
     return <div id="main-layout" className="full">
         <header>
-            <Link to="/">
-                <h3>{me.me?.name}</h3>
-            </Link>
             <div id="main-navbar">
-                <Link to="/feed">Feed</Link>
-                <Link to="/profile">Profile</Link>
-                <Link to="/profile">OPther</Link>
+                <Link to="/feed" className="header-link"><h4>Feed</h4></Link>
+                <Link to="/profile" className="header-link"><h4>Profile</h4></Link>
             </div>
-            <div>
-                <div onClick={logout}>Sair</div>
+            <div id="profile-banner">
+                <div id="profile-name-panel"><h4>{me.me?.name}</h4></div>
+                <div id="profile-img-panel">
+                    <img src="https://i.pravatar.cc/150?u=a042581f4e29026704d" width={"100%"} height={"100%"} style={{ borderRadius: "50%" }} />
+                </div>
             </div>
         </header>
         <main>
-            {children}
+            <div id="main-layout-container">
+                {children}
+            </div>
         </main>
-        <footer>Footer</footer>
+        {/* <footer>Footer</footer> */}
     </div>
 }

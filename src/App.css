@@ -5,7 +5,8 @@
   height: 100vh;
 }
 
-body, .App {
+body,
+.App {
   margin: 0;
   padding: 0;
   width: 100vw;
@@ -20,4 +21,13 @@ body, .App {
 button,
 a {
   cursor: pointer;
+}
+
+.shadow-down {
+  box-shadow: 0px 10px 18px -7px rgba(0, 0, 0, 0.25);
+}
+
+.h-no-margin{
+  margin-top: 0;
+  margin-bottom: 0;
 }
