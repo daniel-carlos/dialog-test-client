@@ -3,7 +3,7 @@ import { User } from "../../types/mainTypes";
 import { unstable_batchedUpdates } from "react-dom";
 import { createJSONStorage, persist } from "zustand/middleware";
 
-interface MeProps {
+interface useAuthProps {
     me: User | null,
     setMe: (newUser: User | null) => void,
     token: string,
@@ -11,7 +11,7 @@ interface MeProps {
     setToken: (token: string) => void,
 }
 
-export const useMe = create<MeProps>()(
+export const useAuth = create<useAuthProps>()(
     persist(
         (set, get) => ({
             me: null,
@@ -27,7 +27,7 @@ export const useMe = create<MeProps>()(
             setToken: (newToken: string) => set(() => ({ token: newToken })),
         }),
         {
-            name: 'me-storage', // name of the item in the storage (must be unique)
+            name: 'dialog-blog-auth-storage', // name of the item in the storage (must be unique)
             storage: createJSONStorage(() => sessionStorage), // (optional) by default, 'localStorage' is used
         }
     ))
@@ -35,6 +35,6 @@ export const useMe = create<MeProps>()(
 
 export const getToken = () => {
     return unstable_batchedUpdates(() => {
-        return useMe.getState().token
+        return useAuth.getState().token
     })
 }

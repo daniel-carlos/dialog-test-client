@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Post, User } from "../../types/mainTypes";
+import { Post } from "../../types/mainTypes";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 interface PostContextProps {
@@ -8,7 +8,7 @@ interface PostContextProps {
     addPost: (newPost: Post) => void
 }
 
-export const useMe = create<PostContextProps>()(
+export const usePostContext = create<PostContextProps>()(
     persist(
         (set, get) => ({
             posts: [],

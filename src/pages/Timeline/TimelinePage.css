@@ -1,0 +1,21 @@
+#timeline-container {
+    margin-top: 2em;
+
+    & .timeline-post:not(:last-child) {
+        border-bottom: 2px solid black;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    & .avatar-container {
+        & img{
+            
+        }
+    }
+
+    & .content-container {
+        flex-grow: 1;
+    }
+
+    & .likes-container {}
+}

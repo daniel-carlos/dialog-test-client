@@ -3,9 +3,8 @@ import './App.css'
 import { TimelinePage } from './pages/Timeline/TimelinePage'
 import { LoginPage } from './pages/Login/LoginPage';
 import { ReactNode } from 'react';
-import { useMe } from './contexts/user/meContext';
+import { useAuth } from './contexts/auth/authContext';
 import { DefaultLayout } from './components/layout/MainLayout';
-import { string } from 'yup';
 
 interface ProtectedRouteProps {
   children: ReactNode
@@ -13,14 +12,8 @@ interface ProtectedRouteProps {
 
 const ProtectedRoute = ({ children }: ProtectedRouteProps): any => {
 
-  const me = useMe()
-
-  console.log("==========================================");
-  console.log(me.me);
-  console.log(me.token);
-  console.log("=====================");
-
-  if (me.me === null || me.token === "") {
+  const auth = useAuth()
+  if (auth.me === null || auth.token === "") {
     return <Navigate to="/login" replace />;
   }
   return <DefaultLayout>{children}</DefaultLayout>;
@@ -33,6 +26,11 @@ function App() {
     <Router>
       <div className="App">
         <Routes>
+          <Route path="/" element={
+            <ProtectedRoute>
+              <TimelinePage />
+            </ProtectedRoute>}
+          />
           <Route path="/feed" element={
             <ProtectedRoute>
               <TimelinePage />

@@ -5,9 +5,10 @@ import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { loginSchema } from "../../formSchemas/formSchemas"
 import { reqGet, reqPost } from "../../api/useAPI"
-import { useMe } from "../../contexts/user/meContext"
+import { useAuth } from "../../contexts/auth/authContext"
 import { SimpleInput } from "../../components/form/simpleInput"
-import { redirect, useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
+import { User } from "../../types/mainTypes"
 
 const leftPanelStyle: CSSProperties = {
     backgroundImage: `url(${imagebg})`,
@@ -16,13 +17,13 @@ const leftPanelStyle: CSSProperties = {
 }
 
 export const LoginPage = () => {
-    const me = useMe();
+    const me = useAuth();
 
     const form = useForm({
         resolver: yupResolver(loginSchema),
     });
 
-    const { handleSubmit, register, formState: { errors }, getValues } = form;
+    const { handleSubmit, getValues } = form;
 
     const navigate = useNavigate();
 
@@ -30,15 +31,26 @@ export const LoginPage = () => {
         try {
             me.logout();
 
-            const loginResponse = await reqPost("auth/login", JSON.stringify({
+            const [loginResponse, loginError] = await reqPost<string>("auth/login", JSON.stringify({
                 username: getValues("username"),
                 password: getValues("password")
             }));
 
+            console.log("Login", loginResponse);
+            console.log("Login Error", loginError);
+
+            if (loginError) {
+                console.log(loginError);
+                return;
+            }
+
             me.setToken(loginResponse.token)
 
-            const userResponse = await reqGet("auth/me");
-            if (userResponse.ok) {
+            const [userResponse, userError] = await reqGet<{ ok: boolean, user: User }>("auth/me");
+            console.log("User Response", userResponse);
+            console.log("Error", userError);
+
+            if (userResponse != null && userResponse.ok) {
                 const { user } = userResponse;
                 console.log("USER", user);
                 me.setMe(user);
