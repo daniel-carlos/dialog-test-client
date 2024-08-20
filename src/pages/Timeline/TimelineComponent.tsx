@@ -18,12 +18,18 @@ export const TimelineComponent = () => {
     const { register, handleSubmit, reset, getValues } = postForm;
 
     const onSubmit = () => {
-        const postObject = {
-            authorId: me.me?.id,
-            content: getValues("content")
+        const postObject: Post = {
+            content: getValues("content"),
+            author: me.me!,
+            likes: [],
+            id: 0,
+            createdAt: new Date(),
         }
-        reqPost("posts", JSON.stringify(postObject))
-        // addPost(postObject)
+        reqPost("posts", JSON.stringify({
+            ...postObject,
+            authorId: postObject.author.id
+        }))
+        addPost(postObject)
         reset();
     }
 

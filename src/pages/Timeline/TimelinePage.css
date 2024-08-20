@@ -1,21 +1,39 @@
 #timeline-container {
     margin-top: 2em;
+    width: 100%;
+    padding: 1em;
+    background-color: #b6c0c2;
+    border-radius: 2em;
 
-    & .timeline-post:not(:last-child) {
-        border-bottom: 2px solid black;
-        display: flex;
-        justify-content: space-between;
-    }
 
-    & .avatar-container {
-        & img{
-            
+    & .timeline-post {
+
+        & .timeline-post-element {
+            display: flex;
+            justify-content: space-between;
+            gap: 1em;
+            padding: 1em;
+
+            & .avatar-container {
+                width: 3em;
+                height: 3em;
+
+                & img {}
+            }
+
+            & .content-container {
+                & .content-container-header {
+                    color: rgb(77, 77, 77);
+                }
+
+                flex-grow: 1;
+            }
+
+            & .likes-container {}
         }
     }
 
-    & .content-container {
-        flex-grow: 1;
+    & .timeline-post:not(:last-child) {
+        border-bottom: 2px solid black;
     }
-
-    & .likes-container {}
 }

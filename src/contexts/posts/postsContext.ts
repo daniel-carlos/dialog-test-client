@@ -15,7 +15,7 @@ export const usePostContext = create<PostContextProps>()(
             setPosts: (newPosts: Post[]) => set(() => {
                 return ({ posts: newPosts })
             }),
-            addPost: (newPost: Post) => ({ posts: [get().posts, newPost] })
+            addPost: (newPost: Post) => ({ posts: get().posts.push(newPost) })
         }),
         {
             name: 'me-storage', // name of the item in the storage (must be unique)
