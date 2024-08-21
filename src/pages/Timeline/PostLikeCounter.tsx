@@ -63,17 +63,16 @@ export const PostLikeContainer = ({ post }: PostLikeContainerProps) => {
 
     async function LikeThisPost(): Promise<void> {
         const [likeResult, err] = await reqGet<Like>(`likes/${me?.id}/${post.id}`);
-
         if (!err) {
-            addLike(post, likeResult!);
-            refreshLikeStatus();
+            addLike(post, { post: post, user: me!, id: 9999 });
+            // refreshLikeStatus();
         }
     }
     async function UnlikeThisPost(): Promise<void> {
         const [likeResult, err] = await reqDelete<Like>(`likes/${me?.id}/${post.id}`);
         if (!err) {
             removeLike(post, me!.id);
-            refreshLikeStatus();
+            // refreshLikeStatus();
         }
     }
 
@@ -84,7 +83,7 @@ export const PostLikeContainer = ({ post }: PostLikeContainerProps) => {
         else {
             await LikeThisPost();
         }
-        refreshLikeStatus();
+        // refreshLikeStatus();
     }
 
     return (
