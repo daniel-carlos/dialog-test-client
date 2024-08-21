@@ -27,6 +27,26 @@ export const reqGet = async <T>(url: string): Promise<[T | null, Error | null]> 
       return [null, err]; // Retorna null para o objeto e o erro
     });
 };
+export const reqDelete = async <T>(url: string): Promise<[T | null, Error | null]> => {
+  return fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+      "Content-Type": "application/json",
+    },
+  })
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`Erro na requisição: ${res.status} - ${res.statusText}`);
+      }
+      return res.json();
+    })
+    .then((data: T) => [data, null] as [T, null]) // Retorna o objeto do tipo T e null para o erro
+    .catch((err: Error) => {
+      console.error("Erro na requisição GET:", err);
+      return [null, err]; // Retorna null para o objeto e o erro
+    });
+};
 
 export const useGet = <T>(
   url: string,

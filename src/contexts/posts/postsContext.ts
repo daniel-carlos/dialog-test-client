@@ -7,6 +7,7 @@ interface PostContextProps {
     setPosts: (posts: Post[]) => void,
     addPost: (newPost: Post) => void,
     addLike: (post: Post, like: Like) => void,
+    removeLike: (post: Post, userId: number) => void,
 }
 
 export const usePostContext = create<PostContextProps>()(
@@ -20,6 +21,10 @@ export const usePostContext = create<PostContextProps>()(
             addLike: (post: Post, like: Like) => {
                 const { setPosts, posts } = get();
                 addLikeInPost(setPosts, posts, post, like);
+            },
+            removeLike: (post: Post, userId: number) => {
+                const { setPosts, posts } = get();
+                removeLikeFromPost(setPosts, posts, post, userId);
             }
         }),
         {
@@ -34,6 +39,16 @@ function addLikeInPost(setPosts: (posts: Post[]) => void, posts: Post[], post: P
     setPosts(posts.map((v, i) => {
         if (v === post) {
             return { ...post, likes: [like, ...post.likes!] };
+        } else {
+            return v;
+        }
+    }));
+}
+
+function removeLikeFromPost(setPosts: (posts: Post[]) => void, posts: Post[], post: Post, userId: number) {
+    setPosts(posts.map((v, i) => {
+        if (v === post) {
+            return { ...post, likes: post.likes?.filter(l => l.user.id != userId) };
         } else {
             return v;
         }
