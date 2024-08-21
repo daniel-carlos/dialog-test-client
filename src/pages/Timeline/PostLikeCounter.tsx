@@ -2,7 +2,7 @@ import { CSSProperties, useEffect, useState } from "react";
 import { Like, Post } from "../../types/mainTypes";
 import heartIcon from "../../assets/heart-svgrepo-com.svg"
 import { FaHeart, FaRegHeart } from "react-icons/fa";
-import { reqDelete, reqPost, usePost } from "../../api/useAPI";
+import { reqDelete, reqGet, reqPost, usePost } from "../../api/useAPI";
 import { useAuth } from "../../contexts/auth/authContext";
 import { usePostContext } from "../../contexts/posts/postsContext";
 
@@ -42,21 +42,19 @@ const iconStyle: CSSProperties = {
 export const PostLikeContainer = ({ post }: PostLikeContainerProps) => {
     const { me } = useAuth();
     const { addLike, removeLike } = usePostContext();
-    const [liked, setLiked] = useState<boolean>();
-    const [count, setCount] = useState<number>();
+    const [liked, setLiked] = useState<boolean>(false);
+    const [count, setCount] = useState<number>(0);
 
     const refreshLikeStatus = () => {
         setLiked(() => {
-            return post.likes?.some(like => {
-                console.log("====>", like.user?.id, me?.id);
-                const isMe = like.user?.id === me?.id
-
-                // console.log(like.user, me);
+            return post.likes!.some(like => {
+                const isMe = like?.user?.id === me?.id
+                console.log("=>", like?.user);
 
                 return isMe;
-            });
+            }) || false;
         });
-        setCount(post.likes?.length);
+        setCount(post.likes!.length);
     }
 
     useEffect(() => {
@@ -64,38 +62,34 @@ export const PostLikeContainer = ({ post }: PostLikeContainerProps) => {
     }, [post, post.likes]);
 
     async function LikeThisPost(): Promise<void> {
-        const [likeResult, err] = await reqPost<Like>("likes", JSON.stringify({
-            userId: me?.id,
-            postId: post.id
-        }));
-        if (err) {
-            console.log("LIKE", err.message);
-        } else {
-            console.log("LIKE", likeResult);
+        const [likeResult, err] = await reqGet<Like>(`likes/${me?.id}/${post.id}`);
+
+        if (!err) {
             addLike(post, likeResult!);
+            refreshLikeStatus();
         }
     }
     async function UnlikeThisPost(): Promise<void> {
-        const [unlikeResult, err] = await reqDelete(`likes/${me?.id}/${post.id}`);
-        if (err) {
-            console.log("UNLIKE", err.message);
-            removeLike(post, me?.id!)
+        const [likeResult, err] = await reqDelete<Like>(`likes/${me?.id}/${post.id}`);
+        if (!err) {
+            removeLike(post, me!.id);
+            refreshLikeStatus();
         }
     }
 
     const onClick = async () => {
         if (liked) {
-            await UnlikeThisPost()
-        } else {
+            await UnlikeThisPost();
+        }
+        else {
             await LikeThisPost();
         }
-        // setLiked(!liked);
         refreshLikeStatus();
     }
 
     return (
         <a type="button" style={contanierStyle} onClick={onClick}>
-            <div style={likesCountStyle}>{post.likes?.length}</div>
+            <div style={likesCountStyle}>{count}</div>
             <div style={iconStyle} >
                 <FaHeart width={"100%"} height={"100%"} style={{ color: liked ? "red" : "grey" }} />
             </div>

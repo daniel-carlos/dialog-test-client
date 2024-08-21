@@ -25,7 +25,7 @@ export const usePostContext = create<PostContextProps>()(
             removeLike: (post: Post, userId: number) => {
                 const { setPosts, posts } = get();
                 removeLikeFromPost(setPosts, posts, post, userId);
-            }
+            },
         }),
         {
             name: 'me-storage', // name of the item in the storage (must be unique)
@@ -48,7 +48,7 @@ function addLikeInPost(setPosts: (posts: Post[]) => void, posts: Post[], post: P
 function removeLikeFromPost(setPosts: (posts: Post[]) => void, posts: Post[], post: Post, userId: number) {
     setPosts(posts.map((v, i) => {
         if (v === post) {
-            return { ...post, likes: post.likes?.filter(l => l.user.id != userId) };
+            return { ...post, likes: post.likes?.filter(l => l?.user?.id != userId) };
         } else {
             return v;
         }
