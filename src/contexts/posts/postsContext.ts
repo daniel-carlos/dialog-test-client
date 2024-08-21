@@ -1,11 +1,12 @@
 import { create } from "zustand";
-import { Post } from "../../types/mainTypes";
+import { Like, Post } from "../../types/mainTypes";
 import { createJSONStorage, persist } from "zustand/middleware";
 
 interface PostContextProps {
     posts: Post[],
     setPosts: (posts: Post[]) => void,
-    addPost: (newPost: Post) => void
+    addPost: (newPost: Post) => void,
+    addLike: (post: Post, like: Like) => void,
 }
 
 export const usePostContext = create<PostContextProps>()(
@@ -15,7 +16,11 @@ export const usePostContext = create<PostContextProps>()(
             setPosts: (newPosts: Post[]) => set(() => {
                 return ({ posts: newPosts })
             }),
-            addPost: (newPost: Post) => ({ posts: get().posts.push(newPost) })
+            addPost: (newPost: Post) => ({ posts: get().posts.push(newPost) }),
+            addLike: (post: Post, like: Like) => {
+                const { setPosts, posts } = get();
+                addLikeInPost(setPosts, posts, post, like);
+            }
         }),
         {
             name: 'me-storage', // name of the item in the storage (must be unique)
@@ -24,4 +29,14 @@ export const usePostContext = create<PostContextProps>()(
     )
 )
 
+
+function addLikeInPost(setPosts: (posts: Post[]) => void, posts: Post[], post: Post, like: Like) {
+    setPosts(posts.map((v, i) => {
+        if (v === post) {
+            return { ...post, likes: [like, ...post.likes!] };
+        } else {
+            return v;
+        }
+    }));
+}
 

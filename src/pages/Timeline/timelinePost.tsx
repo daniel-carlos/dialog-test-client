@@ -24,7 +24,7 @@ export const TimelinePost = ({ post }: TimelinePostProps) => {
             <div>{post.content}</div>
         </div>
         <div className="likes-container">
-            <PostLikeContainer likes={post.likes!} />
+            <PostLikeContainer post={post} />
         </div>
     </div>
 }

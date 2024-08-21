@@ -50,7 +50,7 @@ export const useGet = <T>(
   return [data, error];
 };
 
-export const reqPost = async <T>(url: string, body: any): Promise<any> => {
+export const reqPost = async <T>(url: string, body: any): Promise<[T | null, Error | null]> => {
   return fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
     method: "POST",
     headers: {
@@ -61,7 +61,7 @@ export const reqPost = async <T>(url: string, body: any): Promise<any> => {
   })
     .then((res) => res.json())
     .then((data: T) => [data, null] as [T, null])
-    .catch((err) => {
+    .catch((err: Error) => {
       console.error("Erro na requisição POST:", err);
       throw err; // Rejeita a promessa com o erro
     });
