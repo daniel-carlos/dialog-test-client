@@ -9,14 +9,16 @@ export const TimelinePage = () => {
     const { setPosts } = usePostContext();
 
     useEffect(() => {
-        const _ = async () => {
+        const refreshPosts = async () => {
             const [data, err] = await reqGet<Post[]>("posts")
             if (data != null && !err) {
                 setPosts(data);
             }
         }
 
-        _()
+        setInterval(() => {
+            refreshPosts()
+        }, 1000);
     }, [])
 
     return (
