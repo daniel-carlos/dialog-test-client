@@ -31,7 +31,7 @@ export const LoginPage = () => {
         try {
             me.logout();
 
-            const [loginResponse, loginError] = await reqPost<string>("auth/login", JSON.stringify({
+            const [loginResponse, loginError] = await reqPost<{ token: string }>("auth/login", JSON.stringify({
                 username: getValues("username"),
                 password: getValues("password")
             }));
@@ -40,7 +40,7 @@ export const LoginPage = () => {
                 return;
             }
 
-            me.setToken(loginResponse?.token)
+            me.setToken(loginResponse!.token)
 
             const [userResponse, userError] = await reqGet<{ ok: boolean, user: User }>("auth/me");
 
