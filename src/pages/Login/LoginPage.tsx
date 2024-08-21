@@ -23,7 +23,7 @@ export const LoginPage = () => {
         resolver: yupResolver(loginSchema),
     });
 
-    const { handleSubmit, getValues } = form;
+    const { handleSubmit, getValues, setError, formState: { errors } } = form;
 
     const navigate = useNavigate();
 
@@ -31,12 +31,13 @@ export const LoginPage = () => {
         try {
             me.logout();
 
-            const [loginResponse, loginError] = await reqPost<{ token: string }>("auth/login", JSON.stringify({
+            const [loginResponse, loginError] = await reqPost<{ token: string, error: Error | null }>("auth/login", JSON.stringify({
                 username: getValues("username"),
                 password: getValues("password")
             }));
 
-            if (loginError) {
+            if (loginResponse?.error) {
+                setError("root", { message: "Credenciais Inválidas" })
                 return;
             }
 
@@ -54,6 +55,29 @@ export const LoginPage = () => {
         }
     };
 
+
+
+    const LoginForm = <form onSubmit={handleSubmit(onSubmit)}>
+        <div>Digite o usuário e senha:</div>
+        {errors.root && <div className="error-msg">{errors.root.message}</div>}
+        <SimpleInput name="username" form={form} inputProps={{ type: "text" }} />
+        <SimpleInput name="password" form={form} inputProps={{ type: "password" }} />
+        <button type="submit">
+            <span>Entrar</span>
+        </button>
+        <Link to="/signup" onClick={() => { }}>ou Cadastre-se</Link>
+    </form>
+
+    const SignupForm = <form onSubmit={handleSubmit(onSubmit)}>
+        <p>Digite o usuário e senha:</p>
+        <SimpleInput name="username" form={form} inputProps={{ type: "text" }} />
+        <SimpleInput name="password" form={form} inputProps={{ type: "password" }} />
+        <button type="submit">
+            <span>Entrar</span>
+        </button>
+        <Link to="/signup" onClick={() => { }}>ou Cadastre-se</Link>
+    </form>
+
     return (
         <div id="login-page" className="full" >
             <div className="login-container shadow">
@@ -62,15 +86,7 @@ export const LoginPage = () => {
                 </div>
                 <div className="login-right-panel">
                     <h1>Login</h1>
-                    <p>Digite o usuário e senha:</p>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <SimpleInput name="username" form={form} inputProps={{ type: "text" }} />
-                        <SimpleInput name="password" form={form} inputProps={{ type: "password" }} />
-                        <button type="submit">
-                            <span>Entrar</span>
-                        </button>
-                        <Link to="/signup" onClick={() => { }}>ou Cadastre-se</Link>
-                    </form>
+                    {LoginForm}
                 </div>
             </div>
 
