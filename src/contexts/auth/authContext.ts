@@ -16,12 +16,10 @@ export const useAuth = create<useAuthProps>()(
         (set, get) => ({
             me: null,
             setMe: (newUser: User | null) => set(() => {
-                console.log("SET ME");
                 return ({ me: newUser })
             }),
             token: "",
             logout: () => set((state) => {
-                console.log("LOGOUT");
                 return { token: "", me: null }
             }),
             setToken: (newToken: string) => set(() => ({ token: newToken })),

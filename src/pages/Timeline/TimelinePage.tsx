@@ -11,8 +11,6 @@ export const TimelinePage = () => {
     useEffect(() => {
         const _ = async () => {
             const [data, err] = await reqGet<Post[]>("posts")
-            console.log("Data =>", data);
-
             if (data != null && !err) {
                 setPosts(data);
             }

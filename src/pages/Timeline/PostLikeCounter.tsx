@@ -49,8 +49,6 @@ export const PostLikeContainer = ({ post }: PostLikeContainerProps) => {
         setLiked(() => {
             return post.likes!.some(like => {
                 const isMe = like?.user?.id === me?.id
-                console.log("=>", like?.user);
-
                 return isMe;
             }) || false;
         });

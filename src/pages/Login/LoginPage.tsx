@@ -36,30 +36,20 @@ export const LoginPage = () => {
                 password: getValues("password")
             }));
 
-            console.log("Login", loginResponse);
-            console.log("Login Error", loginError);
-
             if (loginError) {
-                console.log(loginError);
                 return;
             }
 
-            me.setToken(loginResponse.token)
+            me.setToken(loginResponse?.token)
 
             const [userResponse, userError] = await reqGet<{ ok: boolean, user: User }>("auth/me");
-            console.log("User Response", userResponse);
-            console.log("Error", userError);
 
             if (userResponse != null && userResponse.ok) {
                 const { user } = userResponse;
-                console.log("USER", user);
                 me.setMe(user);
                 navigate("/feed");
-            } else {
-                console.log("Erro");
             }
         } catch (error) {
-            console.error("Erro ao obter token:", error);
             // Tratar o erro adequadamente
         }
     };
