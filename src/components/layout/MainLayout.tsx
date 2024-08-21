@@ -12,7 +12,11 @@ interface DefaultLayoutProps {
 }
 
 export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
-    const me = useAuth()
+    const {logout, me} = useAuth()
+
+    const logoutClickHandler = () => {
+        logout();
+    }
 
     return <div id="main-layout" className="full">
         <header>
@@ -20,12 +24,13 @@ export const DefaultLayout = ({ children }: DefaultLayoutProps) => {
                 <Link to="/feed" className="header-link"><h4>Feed</h4></Link>
                 <Link to="/profile" className="header-link"><h4>Profile</h4></Link>
             </div>
-            <div id="profile-banner">
-                <div id="profile-name-panel"><h4>{me.me?.name}</h4></div>
+            <Link to="/profile" id="profile-banner">
+                <div id="profile-name-panel"><h4>{me?.name}</h4></div>
                 <div id="profile-img-panel">
-                    <ProfilePicture user={me.me!} />
+                    <ProfilePicture user={me!} />
                 </div>
-            </div>
+            </Link>
+            <a onClick={logoutClickHandler}>Sair</a>
         </header>
         <main>
             <div id="main-layout-container">

@@ -7,7 +7,7 @@ import { loginSchema } from "../../formSchemas/formSchemas"
 import { reqGet, reqPost } from "../../api/useAPI"
 import { useAuth } from "../../contexts/auth/authContext"
 import { SimpleInput } from "../../components/form/simpleInput"
-import { useNavigate } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { User } from "../../types/mainTypes"
 
 const leftPanelStyle: CSSProperties = {
@@ -69,7 +69,7 @@ export const LoginPage = () => {
                         <button type="submit">
                             <span>Entrar</span>
                         </button>
-                        <a onClick={() => { }}>ou Cadastre-se</a>
+                        <Link to="/signup" onClick={() => { }}>ou Cadastre-se</Link>
                     </form>
                 </div>
             </div>

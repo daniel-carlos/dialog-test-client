@@ -34,6 +34,7 @@
         display: flex;
         align-items: center;
         margin-right: 1em;
+        text-decoration: none;
 
         & #profile-name-panel {
             background-color: #ccd6d8;
@@ -120,9 +121,7 @@
             }
         }
 
-        & #timeline-container {
-            
-        }
+        & #timeline-container {}
     }
 
 }

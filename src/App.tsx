@@ -5,6 +5,8 @@ import { LoginPage } from './pages/Login/LoginPage';
 import { ReactNode } from 'react';
 import { useAuth } from './contexts/auth/authContext';
 import { DefaultLayout } from './components/layout/MainLayout';
+import { SignupPage } from './pages/Sugnup/SignupPage';
+import { ProfilePage } from './pages/Profile/ProfilePage';
 
 interface ProtectedRouteProps {
   children: ReactNode
@@ -36,7 +38,13 @@ function App() {
               <TimelinePage />
             </ProtectedRoute>
           } />
+          <Route path="/profile" element={
+            <ProtectedRoute>
+              <ProfilePage />
+            </ProtectedRoute>
+          } />
           <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
         </Routes>
       </div>
     </Router>
