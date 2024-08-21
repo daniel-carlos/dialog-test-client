@@ -1,6 +1,6 @@
 import "./loginPage.css"
 import imagebg from "../../assets/pages/loginPageBG2.jpg"
-import { CSSProperties } from "react"
+import { CSSProperties, useState } from "react"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { loginSchema } from "../../formSchemas/formSchemas"
@@ -18,6 +18,8 @@ const leftPanelStyle: CSSProperties = {
 
 export const LoginPage = () => {
     const me = useAuth();
+
+    const [inSignup, setInSignup] = useState<boolean>(false)
 
     const form = useForm({
         resolver: yupResolver(loginSchema),
@@ -57,26 +59,37 @@ export const LoginPage = () => {
 
 
 
-    const LoginForm = <form onSubmit={handleSubmit(onSubmit)}>
-        <div>Digite o usuário e senha:</div>
-        {errors.root && <div className="error-msg">{errors.root.message}</div>}
-        <SimpleInput name="username" form={form} inputProps={{ type: "text" }} />
-        <SimpleInput name="password" form={form} inputProps={{ type: "password" }} />
-        <button type="submit">
-            <span>Entrar</span>
-        </button>
-        <Link to="/signup" onClick={() => { }}>ou Cadastre-se</Link>
-    </form>
+    const LoginForm = () => {
+        return <>
+            <h1>Login</h1>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div>Digite o usuário e senha:</div>
+                {errors.root && <div className="error-msg">{errors.root.message}</div>}
+                <SimpleInput name="username" form={form} inputProps={{ type: "text" }} />
+                <SimpleInput name="password" form={form} inputProps={{ type: "password" }} />
+                <button type="submit">
+                    <span>Entrar</span>
+                </button>
+                <a onClick={() => { setInSignup(true) }}>ou Cadastre-se</a>
+            </form>
+        </>
+    }
 
-    const SignupForm = <form onSubmit={handleSubmit(onSubmit)}>
-        <p>Digite o usuário e senha:</p>
-        <SimpleInput name="username" form={form} inputProps={{ type: "text" }} />
-        <SimpleInput name="password" form={form} inputProps={{ type: "password" }} />
-        <button type="submit">
-            <span>Entrar</span>
-        </button>
-        <Link to="/signup" onClick={() => { }}>ou Cadastre-se</Link>
-    </form>
+    const SignupForm = () => {
+        return <>
+            <h1>Crie seu usuário</h1>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                <div>Digite o usuário e senha:</div>
+                {errors.root && <div className="error-msg">{errors.root.message}</div>}
+                <SimpleInput name="username" form={form} inputProps={{ type: "text" }} />
+                <SimpleInput name="password" form={form} inputProps={{ type: "password" }} />
+                <button type="submit">
+                    <span>Entrar</span>
+                </button>
+                <Link to="/signup" onClick={() => { }}>ou Cadastre-se</Link>
+            </form>
+        </>
+    }
 
     return (
         <div id="login-page" className="full" >
@@ -85,8 +98,9 @@ export const LoginPage = () => {
                     {/* <img src="src/assets/pages/loginPageBG.jpg" alt="" style={{width: "100%", height: "100%", objectFit: "cover"}}/> */}
                 </div>
                 <div className="login-right-panel">
-                    <h1>Login</h1>
-                    {LoginForm}
+
+                    {!inSignup && <LoginForm />}
+                    {inSignup && <SignupForm />}
                 </div>
             </div>
 
