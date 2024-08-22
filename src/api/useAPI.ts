@@ -76,6 +76,7 @@ export const reqPost = async <T>(url: string, body: any): Promise<[T | null, Err
     headers: {
       Authorization: `Bearer ${getToken()}`,
       "Content-Type": "application/json",
+      redirect: "follow"
     },
     body,
   })

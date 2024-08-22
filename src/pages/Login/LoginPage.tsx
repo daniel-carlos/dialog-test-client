@@ -9,6 +9,8 @@ import { useAuth } from "../../contexts/auth/authContext"
 import { SimpleInput } from "../../components/form/simpleInput"
 import { Link, useNavigate } from "react-router-dom"
 import { User } from "../../types/mainTypes"
+import { LoginForm } from "./LoginForm"
+import { SignupForm } from "./SignupForm"
 
 const leftPanelStyle: CSSProperties = {
     backgroundImage: `url(${imagebg})`,
@@ -59,37 +61,8 @@ export const LoginPage = () => {
 
 
 
-    const LoginForm = () => {
-        return <>
-            <h1>Login</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div>Digite o usuário e senha:</div>
-                {errors.root && <div className="error-msg">{errors.root.message}</div>}
-                <SimpleInput name="username" form={form} inputProps={{ type: "text" }} />
-                <SimpleInput name="password" form={form} inputProps={{ type: "password" }} />
-                <button type="submit">
-                    <span>Entrar</span>
-                </button>
-                <a onClick={() => { setInSignup(true) }}>ou Cadastre-se</a>
-            </form>
-        </>
-    }
-
-    const SignupForm = () => {
-        return <>
-            <h1>Crie seu usuário</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div>Digite o usuário e senha:</div>
-                {errors.root && <div className="error-msg">{errors.root.message}</div>}
-                <SimpleInput name="username" form={form} inputProps={{ type: "text" }} />
-                <SimpleInput name="password" form={form} inputProps={{ type: "password" }} />
-                <button type="submit">
-                    <span>Entrar</span>
-                </button>
-                <Link to="/signup" onClick={() => { }}>ou Cadastre-se</Link>
-            </form>
-        </>
-    }
+   
+   
 
     return (
         <div id="login-page" className="full" >
@@ -99,8 +72,19 @@ export const LoginPage = () => {
                 </div>
                 <div className="login-right-panel">
 
-                    {!inSignup && <LoginForm />}
-                    {inSignup && <SignupForm />}
+                    {!inSignup && <>
+                        <LoginForm />
+                        <a onClick={() => { setInSignup(true) }}>ou Cadastre-se</a>
+                    </>}
+                    {inSignup && <>
+                        <SignupForm />
+                        <div>
+                            <span>{"Já tem uma conta? "}</span>
+                            <span>
+                                <a onClick={() => { setInSignup(false) }}>Entre</a>
+                            </span>
+                        </div>
+                    </>}
                 </div>
             </div>
 
