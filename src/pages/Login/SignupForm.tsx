@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { reqGet, reqPost, sendFile } from "../../api/useAPI";
+import { reqGet, reqPost, sendFile, usePost } from "../../api/useAPI";
 import { SimpleInput } from "../../components/form/simpleInput";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -24,19 +24,21 @@ export const SignupForm = ({ }: SignupFormProps) => {
 
     const onSubmit = async () => {
         try {
+            const [createdUser, err] = await reqPost<User>("users", JSON.stringify({
+                username: getValues("username"),
+                password: getValues("password"),
+                name: getValues("myname"),
+            }))
+            if (err) {
+                return;
+            }
+            console.log("Novo Usuário", createdUser);
+
             if (avatarFile) {
                 const formData = new FormData();
                 formData.append('avatar', avatarFile);
-
-                const fileUpload = await sendFile(`users/avatar-upload/2`, formData)
+                const fileUpload = await sendFile(`users/avatar-upload/${createdUser?.id}`, formData)
                 console.log("File Upload", fileUpload);
-
-                // fetch(`${import.meta.env.VITE_BASE_URL}/users/avatar-upload/2`, {
-                //     method: "POST",
-                //     body: formData,
-                //     redirect: "follow",
-                // })
-                // console.log("File upload 2", fileUpload2);
             }
         } catch (error) {
             // Tratar o erro adequadamente
@@ -78,12 +80,13 @@ export const SignupForm = ({ }: SignupFormProps) => {
     return <>
         <h1>Cadastro</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
+            <SimpleInput title="Nome" name="myname" form={form} inputProps={{ type: "text" }} isRequired />
             <SimpleInput title="Nome de Usuário" name="username" form={form} inputProps={{ type: "text" }} isRequired />
             <SimpleInput title="Senha" name="password" form={form} inputProps={{ type: "password" }} isRequired />
             <SimpleInput title="Confirmar Senha" name="confirmPassword" form={form} inputProps={{ type: "password" }} isRequired />
             <AvatarUploader />
             <button type="submit">
-                <span>Entrar</span>
+                <span>Cadastrar-se</span>
             </button>
         </form>
     </>
