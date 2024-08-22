@@ -70,13 +70,14 @@ export const useGet = <T>(
   return [data, error];
 };
 
-export const reqPost = async <T>(url: string, body: any): Promise<[T | null, Error | null]> => {
+export const reqPost = async <T>(url: string, body: any, headers: HeadersInit = {}): Promise<[T | null, Error | null]> => {
   return fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${getToken()}`,
-      "Content-Type": "application/json",
-      redirect: "follow"
+      "Content-Type": body instanceof FormData ? "multipart/form-data" : "application/json",
+      redirect: "follow",
+      ...headers
     },
     body,
   })
@@ -84,8 +85,20 @@ export const reqPost = async <T>(url: string, body: any): Promise<[T | null, Err
     .then((data: T) => [data, null] as [T, null])
     .catch((err: Error) => {
       console.error("Erro na requisição POST:", err);
-      throw err; // Rejeita a promessa com o erro
+      throw err;
     });
+};
+
+export const sendFile = (url: string, body: FormData) => {
+  fetch(`${import.meta.env.VITE_BASE_URL}/${url}`, {
+    method: "POST",
+    redirect: "follow",
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+      redirect: "follow",
+    },
+    body,
+  })
 };
 
 export const usePost = <T>(

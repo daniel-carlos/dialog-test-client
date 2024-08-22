@@ -1,5 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { reqGet, reqPost } from "../../api/useAPI";
+import { reqGet, reqPost, sendFile } from "../../api/useAPI";
 import { SimpleInput } from "../../components/form/simpleInput";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -25,13 +25,18 @@ export const SignupForm = ({ }: SignupFormProps) => {
     const onSubmit = async () => {
         try {
             if (avatarFile) {
-                console.log("Avatar File", avatarFile);
                 const formData = new FormData();
                 formData.append('avatar', avatarFile);
-                const fileUpload = await reqPost(`users/avatar-upload/2`, formData)
 
+                const fileUpload = await sendFile(`users/avatar-upload/2`, formData)
                 console.log("File Upload", fileUpload);
 
+                // fetch(`${import.meta.env.VITE_BASE_URL}/users/avatar-upload/2`, {
+                //     method: "POST",
+                //     body: formData,
+                //     redirect: "follow",
+                // })
+                // console.log("File upload 2", fileUpload2);
             }
         } catch (error) {
             // Tratar o erro adequadamente
@@ -44,6 +49,8 @@ export const SignupForm = ({ }: SignupFormProps) => {
     const [avatarFile, setAvatarFile] = useState<File>();
 
     const onImageUpload = (file: File) => {
+        console.log("FILE =>", file);
+
         const objectURL = URL.createObjectURL(file);
         console.log("Image", objectURL);
         setAvatarFile(file);
