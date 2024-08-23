@@ -4,7 +4,7 @@ function Profile() {
   return (
     <div className="profile">
       <div className="profile-pic">
-        <img src="https://via.placeholder.com/150" alt="Profile" />
+        <img src="https://via.placeholder.com/150" alt="Profile" className='avatar'/>
       </div>
       <div className="profile-details">
         <h2>John Doe</h2>

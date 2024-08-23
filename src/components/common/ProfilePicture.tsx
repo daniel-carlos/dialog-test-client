@@ -8,6 +8,6 @@ interface ProfilePictureProps {
 export const ProfilePicture = ({ user }: ProfilePictureProps) => {
 
     return (
-        <img src={getAvatarURL(user!.id)} width={"100%"} height={"100%"} style={{ borderRadius: "50%" }} />
+        <img className="avatar" src={getAvatarURL(user!.id)} width={"100%"} height={"100%"} style={{ borderRadius: "50%" }} />
     )
 }

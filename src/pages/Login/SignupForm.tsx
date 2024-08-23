@@ -72,7 +72,7 @@ export const SignupForm = ({ }: SignupFormProps) => {
 
     const AvatarUploader = () => {
         return <div>
-            <img src={previewUrl} alt="" style={{ width: "4em", height: "4em" }} />
+            <img src={previewUrl} alt="" style={{ width: "4em", height: "4em" }} className="avatar"/>
             <input type="file" accept="image/*" onChange={handleImageChange} />
         </div>
     }

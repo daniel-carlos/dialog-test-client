@@ -17,7 +17,7 @@ export const TimelinePost = ({ post }: TimelinePostProps) => {
         </div>
         <div className="content-container">
             <div className="content-container-header">
-                <span>{post.author.name}</span>
+                <span className="author-name">{post.author.name}</span>
                 {" - "}
                 <span>{format(post.createdAt, "dd/MM/yyyy")}</span>
             </div>

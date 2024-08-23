@@ -24,6 +24,10 @@
             & .content-container {
                 & .content-container-header {
                     color: rgb(77, 77, 77);
+
+                    & .author-name{
+                        font-weight: bold;
+                    }
                 }
 
                 flex-grow: 1;
