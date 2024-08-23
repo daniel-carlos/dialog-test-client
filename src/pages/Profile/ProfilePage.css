@@ -1,0 +1,39 @@
+#profile-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    & #profile-card {
+        margin-top: 3em;
+        padding: 2em;
+        background-color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 22em;
+        border-radius: 2em;
+
+        & h1{
+            font-size: 250%;
+            margin-bottom: 0;
+        }
+
+        & em {
+            margin-top:  0;
+        }
+
+        & #profile-picture-container {
+            width: 20em;
+            height: 20em;
+        }
+
+        & button {
+            background-color: #1c2a34;
+            color: #f0f9fa;
+            padding: 2em;
+            padding-top: 0.5em;
+            padding-bottom: 0.5em;
+            border-radius: 5em;
+        }
+    }
+}
