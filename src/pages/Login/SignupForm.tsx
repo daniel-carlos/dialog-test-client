@@ -9,10 +9,10 @@ import { User } from "../../types/mainTypes";
 import { useState } from "react";
 
 interface SignupFormProps {
-
+    createCallback: () => void
 }
 
-export const SignupForm = ({ }: SignupFormProps) => {
+export const SignupForm = ({ createCallback }: SignupFormProps) => {
     const me = useAuth();
     const navigate = useNavigate();
 
@@ -40,6 +40,10 @@ export const SignupForm = ({ }: SignupFormProps) => {
                 const fileUpload = await sendFile(`users/avatar-upload/${createdUser?.id}`, formData)
                 console.log("File Upload", fileUpload);
             }
+
+            //TODO: voltar pro form de login
+            // navigate(0)
+            createCallback()
         } catch (error) {
             // Tratar o erro adequadamente
             console.log("Erro upload", error);
@@ -72,8 +76,10 @@ export const SignupForm = ({ }: SignupFormProps) => {
 
     const AvatarUploader = () => {
         return <div>
-            <img src={previewUrl} alt="" style={{ width: "4em", height: "4em" }} className="avatar"/>
-            <input type="file" accept="image/*" onChange={handleImageChange} />
+            <label htmlFor="avatar-input">
+                <img src={previewUrl} alt="" style={{ width: "4em", height: "4em" }} className="avatar" />
+            </label>
+            <input id="avatar-input" type="file" accept="image/*" onChange={handleImageChange} />
         </div>
     }
 

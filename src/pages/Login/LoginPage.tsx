@@ -61,35 +61,39 @@ export const LoginPage = () => {
 
 
 
-   
-   
+
+
 
     return (
-        <div id="login-page" className="full" >
-            <div className="login-container shadow">
-                <div className="login-left-panel" style={leftPanelStyle}>
-                    {/* <img src="src/assets/pages/loginPageBG.jpg" alt="" style={{width: "100%", height: "100%", objectFit: "cover"}}/> */}
+        <div style={{height: "100vh"}}>
+            <div id="login-page" className="full" >
+                <div className="login-container shadow">
+                    <div className="login-left-panel" style={leftPanelStyle}>
+                        {/* <img src="src/assets/pages/loginPageBG.jpg" alt="" style={{width: "100%", height: "100%", objectFit: "cover"}}/> */}
+                    </div>
+                    <div className="login-right-panel">
+            
+                        {!inSignup && <>
+                            <LoginForm />
+                            <a onClick={() => { setInSignup(true) }}>ou Cadastre-se</a>
+                        </>}
+                        {inSignup && <>
+                            <SignupForm createCallback={() => {
+                                setInSignup(false)
+                            }} />
+                            <div>
+                                <span>{"Já tem uma conta? "}</span>
+                                <span>
+                                    <a onClick={() => { setInSignup(false) }}>Entre</a>
+                                </span>
+                            </div>
+                        </>}
+                    </div>
                 </div>
-                <div className="login-right-panel">
-
-                    {!inSignup && <>
-                        <LoginForm />
-                        <a onClick={() => { setInSignup(true) }}>ou Cadastre-se</a>
-                    </>}
-                    {inSignup && <>
-                        <SignupForm />
-                        <div>
-                            <span>{"Já tem uma conta? "}</span>
-                            <span>
-                                <a onClick={() => { setInSignup(false) }}>Entre</a>
-                            </span>
-                        </div>
-                    </>}
-                </div>
+            
+            
+            
             </div>
-
-
-
         </div>
     )
 }

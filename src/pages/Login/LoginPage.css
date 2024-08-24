@@ -1,3 +1,8 @@
+body,
+.App {
+    /* height: 100vh; */
+}
+
 #login-page {
     display: flex;
     justify-content: center;
@@ -28,12 +33,12 @@
     flex-grow: 1;
     display: flex;
     justify-content: center;
-    
+
     & .login-left-panel {
         border-radius: 15px;
         flex-grow: 1;
     }
-    
+
     & .login-right-panel {
         padding-top: 3em;
         padding-bottom: 3em;
@@ -92,6 +97,14 @@
 
             & button:hover {
                 background-color: #688599;
+            }
+
+            & label {
+                cursor: pointer;
+            }
+
+            & #avatar-input {
+                display: block;
             }
         }
     }

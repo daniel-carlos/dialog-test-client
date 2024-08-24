@@ -5,7 +5,7 @@ import "./ProfilePage.css"
 export const ProfilePage = () => {
     const { me } = useAuth();
 
-    return <div id="profile-page" className="full">
+    return <div style={{ height: "100vh" }}><div id="profile-page" className="full">
         <div id="profile-card" className="shadow">
             <div id="profile-picture-container">
                 <ProfilePicture user={me!} />
@@ -13,5 +13,6 @@ export const ProfilePage = () => {
             <h1>{me?.name}</h1>
             <em>{me?.username}</em>
         </div>
+    </div>
     </div>
 }
